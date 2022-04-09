@@ -1,0 +1,17 @@
+name: mds_env
+channels:
+  - conda-forge
+  - anaconda
+dependencies:
+  - ipykernel
+  - basemap
+  - pandas
+  - pyyaml
+  - geopy
+  - gym
+  - pillow
+  - shapely
+  - descartes
+  - ray-rllib
+  - tensorflow-gpu
+  - cudatoolkit

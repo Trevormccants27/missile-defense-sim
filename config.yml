@@ -1,0 +1,59 @@
+
+# Plot options
+plot_delay: 0.0001
+
+# RL Options
+obs_height: 16
+obs_width: 16
+placement_lat_band: [25, 50]
+placement_lng_band: [125, 150]
+obs_lat_band: [20, 50]
+obs_lng_band: [110, 150]
+
+# Global attributes
+time_to_war: 100 # months
+political_tensions_factor: 1500 #km/month
+
+# Nation attributes
+US:
+  budget: 715000 # million USD
+
+Japan:
+  budget: 47000 # million USD
+
+Enemy:
+  n_threat_platforms: 20
+
+# Platform attributes
+ship:
+  cost: 1843
+  deploy_time: 6
+  n_interceptors: 10000
+  p_k: 0.56
+  intercept_range: 185 # km
+  p_a: 0.9
+  detection_range: 324 # km
+
+ground_interceptor:
+  cost: 1500
+  deploy_time: 12
+  n_interceptors: 20
+  p_k: 0.9
+  intercept_range: 160 # km
+  p_a: 0
+  detection_range: 0 # km
+
+ground_detector:
+  cost: 190
+  deploy_time: 12
+  n_interceptors: 0
+  p_k: 0
+  intercept_range: 0 # km
+  p_a: 0.6
+  detection_range: 470 # km
+
+threat_platform:
+  n_missiles: [1, 5]
+  time_between_attacks: {mean: 10, std: 3}
+  threat_missile:
+    steps_to_impact: 20
