@@ -20,15 +20,16 @@ def main(args):
 
     # Step through environment
     total_reward = 0
-    while True:
+    for t in range(config['max_time_steps']):
+        print(f'Current time step: {t}')
+
         action = np.random.random(2)
-        print(action)
         obs, reward, done, _ = env.step(action)
         total_reward += reward
 
         # Render plot each step
         if args.render:
-            env.render(mode="observation")
+            env.render(mode=args.render_mode)
             
             # Hold program until plot is closed
             # if done:
@@ -37,14 +38,17 @@ def main(args):
         if done:
             break
 
+    print(f'Total reward: {total_reward}')
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='This file runs a missile defense simulation centered around defending Japanese cities against potential agressors.')
 
     default_config_file = 'config.yml'
+    default_render_mode = 'human'
 
     parser.add_argument('-c', '--config-file', help=f'Specifies location of config file. Default is {default_config_file}', default=default_config_file)
     parser.add_argument('-r', '--render', help=f'Enables rendering plot each time step', action='store_true', default=False)
+    parser.add_argument('-m', '--render-mode', help=f'Specifies which mode to render in. Options are \"human\" or \"observation\". Default is {default_render_mode}', default=default_render_mode)
 
     args = parser.parse_args()
 

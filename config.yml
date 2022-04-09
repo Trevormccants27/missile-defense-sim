@@ -1,8 +1,8 @@
-
 # Plot options
 plot_delay: 0.0001
 
 # RL Options
+max_time_steps: 200
 obs_height: 16
 obs_width: 16
 placement_lat_band: [25, 50]

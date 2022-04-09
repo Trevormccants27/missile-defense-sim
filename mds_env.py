@@ -77,27 +77,27 @@ class MDSEnv(Env):
         # Initialize observation
         obs = np.zeros(self.observation_space.shape, dtype=np.float32)
 
-        for lat_idx in range(len(self.grid_lat)-1):
-            for lng_idx in range(len(self.grid_lng)-1):
-                lat_lower = self.grid_lat[lat_idx]
-                lng_lower = self.grid_lng[lng_idx]
-                lat_upper = self.grid_lat[lat_idx+1]
-                lng_upper = self.grid_lng[lng_idx+1]
+        # for lat_idx in range(len(self.grid_lat)-1):
+        #     for lng_idx in range(len(self.grid_lng)-1):
+        #         lat_lower = self.grid_lat[lat_idx]
+        #         lng_lower = self.grid_lng[lng_idx]
+        #         lat_upper = self.grid_lat[lat_idx+1]
+        #         lng_upper = self.grid_lng[lng_idx+1]
                 
-                # Populate threats
-                for threat_platform in self.threat_platforms:
-                    if lat_lower <= threat_platform.location[0] < lat_upper and lng_lower <= threat_platform.location[1] < lng_upper:
-                        obs[lat_idx,lng_idx,0] += threat_platform.n_missiles
-                obs[lat_idx,lng_idx,0] /= self.config['threat_platform']['n_missiles'][1]
+        #         # Populate threats
+        #         for threat_platform in self.threat_platforms:
+        #             if lat_lower <= threat_platform.location[0] < lat_upper and lng_lower <= threat_platform.location[1] < lng_upper:
+        #                 obs[lat_idx,lng_idx,0] += threat_platform.n_missiles
+        #         obs[lat_idx,lng_idx,0] /= self.config['threat_platform']['n_missiles'][1]
 
-                for defense_platform in self.defense_platforms:
-                    # Populate Detectors
-                    if defense_platform.check_detection_range(((lat_lower+lat_upper)/2.0, (lng_lower+lng_upper)/2.0)):
-                        obs[lat_idx,lng_idx,1] = 1 - ((1-obs[lat_idx,lng_idx,1]) * (1-defense_platform.config['p_a']))
+        #         for defense_platform in self.defense_platforms:
+        #             # Populate Detectors
+        #             if defense_platform.check_detection_range(((lat_lower+lat_upper)/2.0, (lng_lower+lng_upper)/2.0)):
+        #                 obs[lat_idx,lng_idx,1] = 1 - ((1-obs[lat_idx,lng_idx,1]) * (1-defense_platform.config['p_a']))
 
-                    # Populate Interceptors
-                    if defense_platform.check_intercept_range(((lat_lower+lat_upper)/2.0, (lng_lower+lng_upper)/2.0)):
-                        obs[lat_idx,lng_idx,2] = 1 - ((1-obs[lat_idx,lng_idx,2]) * (1-defense_platform.config['p_k']))
+        #             # Populate Interceptors
+        #             if defense_platform.check_intercept_range(((lat_lower+lat_upper)/2.0, (lng_lower+lng_upper)/2.0)):
+        #                 obs[lat_idx,lng_idx,2] = 1 - ((1-obs[lat_idx,lng_idx,2]) * (1-defense_platform.config['p_k']))
 
         return (obs*255).astype('uint8')
 
