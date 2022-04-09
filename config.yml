@@ -13,6 +13,7 @@ obs_lng_band: [110, 150]
 # Global attributes
 time_to_war: 100 # months
 political_tensions_factor: 1500 #km/month
+n_defended_assets: 10
 
 # Nation attributes
 US:

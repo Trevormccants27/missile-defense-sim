@@ -49,7 +49,7 @@ class MDSEnv(Env):
         self.budget['Japan'] = self.config['Japan']['budget']
 
         # Initialize Defended Assets
-        self.defended_assets = self.japanese_cities.head(10)
+        self.defended_assets = self.japanese_cities.head(self.config['n_defended_assets'])
 
         # Initialize Threats
         self.threat_missiles = []
