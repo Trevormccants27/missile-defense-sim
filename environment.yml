@@ -12,6 +12,3 @@ dependencies:
   - pillow
   - shapely
   - descartes
-  - ray-rllib
-  - tensorflow-gpu
-  - cudatoolkit
