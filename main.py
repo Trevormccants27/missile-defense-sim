@@ -20,7 +20,7 @@ def main(args):
     if args.save_images and os.path.isdir(args.save_location):
         raise Exception(f'Save location already exists: \"{args.save_location}\"! Please specify a new save location.')
 
-    final_results = pd.DataFrame(columns=['config_file', 'total_reward'])
+    final_results = pd.DataFrame(columns=['config_file', 'total_reward', 'US_budget'])
     for config_num, config_file in enumerate(config_file_list):
         print(f'------------- RUNNING CONFIG FILE: {config_file} -------------')
         save_location = os.path.join(args.save_location, os.path.basename(config_file.split('.')[0]))
@@ -57,7 +57,7 @@ def main(args):
 
             for nation, actor_obj in actors.items():
                 action = actor_obj.get_action()
-                obs, reward, done, _ = env.step(action, nation)
+                obs, reward, done, log = env.step(action, nation)
                 total_reward += reward
 
             # Render plot each step
@@ -71,7 +71,7 @@ def main(args):
                 break
 
         print(f'Total reward: {total_reward}')
-        final_results.loc[config_num] = [config_file, total_reward]
+        final_results.loc[config_num] = [config_file, total_reward, log['US_budget']]
 
     print(final_results)
     final_results.set_index('config_file').to_csv('final_results.csv')

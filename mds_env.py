@@ -203,7 +203,7 @@ class MDSEnv(Env):
             for r in range(len(self.defended_assets)):
                 reward += self.defended_assets.iloc[r]['population'] / 1E6
 
-        return self.get_observation(), reward, done, {}
+        return self.get_observation(), reward, done, {'US_budget': self.budget['US']}
 
     def place_defense_platforms(self, location, nation):
         deploy_time = 0
