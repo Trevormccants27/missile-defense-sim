@@ -8,6 +8,7 @@ import warnings
 from actors import *
 from glob import glob
 import os
+from tqdm import tqdm
 
 def load_config(config_file):
     with open(config_file, 'r') as stream:
@@ -20,9 +21,10 @@ def main(args):
     if args.save_images and os.path.isdir(args.save_location):
         raise Exception(f'Save location already exists: \"{args.save_location}\"! Please specify a new save location.')
 
-    final_results = pd.DataFrame(columns=['config_file', 'total_reward', 'US_budget'])
-    for config_num, config_file in enumerate(config_file_list):
-        print(f'------------- RUNNING CONFIG FILE: {config_file} -------------')
+    final_results = pd.DataFrame(columns=['config_file', 'total_reward', 'reward_perc', 'US_budget'])
+    for config_num in tqdm(range(len(config_file_list)), desc='Config Files'):
+        config_file = config_file_list[config_num]
+        #print(f'------------- RUNNING CONFIG FILE: {config_file} -------------')
         save_location = os.path.join(args.save_location, os.path.basename(config_file.split('.')[0]))
         
         if args.save_images:
@@ -52,8 +54,8 @@ def main(args):
 
         # Step through environment
         total_reward = 0
-        for t in range(config['max_time_steps']):
-            print(f'Current time step: {t}')
+        for t in tqdm(range(config['max_time_steps']), desc='Time Step', leave=False):
+            #print(f'Current time step: {t}')
 
             for nation, actor_obj in actors.items():
                 action = actor_obj.get_action()
@@ -70,8 +72,8 @@ def main(args):
             if done:
                 break
 
-        print(f'Total reward: {total_reward}')
-        final_results.loc[config_num] = [config_file, total_reward, log['US_budget']]
+        #print(f'Total reward: {total_reward}')
+        final_results.loc[config_num] = [config_file, total_reward, log['reward_perc'], log['US_budget']]
 
     print(final_results)
     final_results.set_index('config_file').to_csv('final_results.csv')
@@ -91,6 +93,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    warnings.filterwarnings('ignore', '.*Shapely 2.*')
+    #warnings.filterwarnings('ignore', '.*Shapely 2.*')
+    warnings.filterwarnings('ignore')
 
     main(args)

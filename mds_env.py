@@ -50,6 +50,7 @@ class MDSEnv(Env):
 
         # Initialize Defended Assets
         self.defended_assets = self.japanese_cities.head(self.config['n_defended_assets'])
+        self.initial_pop = np.sum(self.defended_assets['population'])
 
         # Initialize Threats
         self.threat_missiles = []
@@ -186,12 +187,16 @@ class MDSEnv(Env):
         self.deploy_time -= 1
 
         # Update threat missiles
-        if self.time_to_war <= self.get_political_tension():
+        if self.time_to_war <= self.get_political_tension() or self.budget['US'] < 2000:
             self.step_threat_platforms()
             self.step_threat_missiles()
         
         # Stop when all defended assets are destroyed
         if len(self.defended_assets) < 1:
+            done = True
+
+        # Stop when the threat launchers have no more missiles
+        if np.sum([x.n_missiles for x in self.threat_platforms]) < 1:
             done = True
 
         # Update time to war
@@ -201,9 +206,9 @@ class MDSEnv(Env):
         reward = 0
         if done:
             for r in range(len(self.defended_assets)):
-                reward += self.defended_assets.iloc[r]['population'] / 1E6
+                reward += self.defended_assets.iloc[r]['population']
 
-        return self.get_observation(), reward, done, {'US_budget': self.budget['US']}
+        return self.get_observation(), reward, done, {'US_budget': self.budget['US'], 'reward_perc': reward/self.initial_pop}
 
     def place_defense_platforms(self, location, nation):
         deploy_time = 0
