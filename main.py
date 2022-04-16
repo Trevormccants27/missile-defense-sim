@@ -74,7 +74,7 @@ def main(args):
         final_results.loc[config_num] = [config_file, total_reward]
 
     print(final_results)
-    final_results.to_csv('final_results.csv')
+    final_results.set_index('config_file').to_csv('final_results.csv')
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='This file runs a missile defense simulation centered around defending Japanese cities against potential agressors.')
