@@ -199,8 +199,9 @@ class MDSEnv(Env):
 
         # Update reward
         reward = 0
-        for r in range(len(self.defended_assets)):
-            reward += self.defended_assets.iloc[r]['population'] / 1E6
+        if done:
+            for r in range(len(self.defended_assets)):
+                reward += self.defended_assets.iloc[r]['population'] / 1E6
 
         return self.get_observation(), reward, done, {}
 

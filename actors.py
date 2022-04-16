@@ -60,3 +60,18 @@ class actor_spaced_out(actor):
     def get_action(self):
         return self.actions.pop(0)
 
+class actor_in_between_and_near_defense(actor):
+    def __init__(self, action_space, threat_platforms, defended_assets, placement_lat_band, placement_lng_band):
+        super().__init__(action_space, threat_platforms, defended_assets, placement_lat_band, placement_lng_band)
+
+        self.actor_in_between = actor_in_between(action_space, threat_platforms, defended_assets, placement_lat_band, placement_lng_band)
+        self.actor_near_defense = actor_near_defense(action_space, threat_platforms, defended_assets, placement_lat_band, placement_lng_band)
+
+    def get_action(self):
+        if np.random.random() > 0.5:
+            action = self.actor_in_between.get_action()
+        else:
+            action = self.actor_near_defense.get_action()
+
+        return action
+

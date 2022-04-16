@@ -25,7 +25,8 @@ def main(args):
         print(f'------------- RUNNING CONFIG FILE: {config_file} -------------')
         save_location = os.path.join(args.save_location, os.path.basename(config_file.split('.')[0]))
         
-        os.makedirs(save_location)
+        if args.save_images:
+            os.makedirs(save_location)
             
         config = load_config(config_file)
 
@@ -42,6 +43,8 @@ def main(args):
             actor_obj = actor_near_defense(env.action_space, env.threat_platforms, env.defended_assets, config['placement_lat_band'], config['placement_lng_band'])
         elif config['actor_type'] == 'spaced_out':
             actor_obj = actor_spaced_out(env.action_space, env.threat_platforms, env.defended_assets, config['placement_lat_band'], config['placement_lng_band'])
+        elif config['actor_type'] == 'in_between_and_near_defense':
+            actor_obj = actor_in_between_and_near_defense(env.action_space, env.threat_platforms, env.defended_assets, config['placement_lat_band'], config['placement_lng_band'])
         else:
             raise Exception(f"Invalid actor type selected: {config['actor_type']}")
 
