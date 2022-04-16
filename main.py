@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import warnings
 from actors import *
 from glob import glob
+import os
 
 def load_config(config_file):
     with open(config_file, 'r') as stream:
@@ -16,9 +17,16 @@ def load_config(config_file):
 def main(args):
     config_file_list = glob(args.config_file)
 
+    if args.save_images and os.path.isdir(args.save_location):
+        raise Exception(f'Save location already exists: \"{args.save_location}\"! Please specify a new save location.')
+
     final_results = pd.DataFrame(columns=['config_file', 'total_reward'])
     for config_num, config_file in enumerate(config_file_list):
         print(f'------------- RUNNING CONFIG FILE: {config_file} -------------')
+        save_location = os.path.join(args.save_location, os.path.basename(config_file.split('.')[0]))
+        
+        os.makedirs(save_location)
+            
         config = load_config(config_file)
 
         # Create Environment
@@ -47,8 +55,11 @@ def main(args):
             total_reward += reward
 
             # Render plot each step
-            if args.render:
+            if args.render or args.save_images:
                 env.render(mode=args.render_mode)
+                
+                if args.save_images:
+                    plt.savefig(os.path.join(save_location, f'{t}.png'))
 
             if done:
                 break
@@ -64,9 +75,12 @@ if __name__ == "__main__":
 
     default_config_file = 'config*.yml'
     default_render_mode = 'human'
+    default_save_location = './plots'
 
     parser.add_argument('-c', '--config-file', help=f'Specifies location of config file. Note this can also contain wild cards to specify a list. Default is {default_config_file}', default=default_config_file)
     parser.add_argument('-r', '--render', help=f'Enables rendering plot each time step', action='store_true', default=False)
+    parser.add_argument('-s', '--save-images', help=f'Enables saving images each time step', action='store_true', default=False)
+    parser.add_argument('--save-location', help=f'Specifies location to save plots. Default is {default_save_location}', default=default_save_location)
     parser.add_argument('-m', '--render-mode', help=f'Specifies which mode to render in. Options are \"human\" or \"observation\". Default is {default_render_mode}', default=default_render_mode)
 
     args = parser.parse_args()
