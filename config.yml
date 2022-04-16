@@ -2,6 +2,8 @@
 plot_delay: 0.0001
 
 # RL Options
+actor_type: 'random' # Options are ['random', 'in_between', 'near_defense', 'spaced_out']
+seed: 42
 max_time_steps: 200
 obs_height: 16
 obs_width: 16
