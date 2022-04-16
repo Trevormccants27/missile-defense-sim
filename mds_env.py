@@ -167,7 +167,7 @@ class MDSEnv(Env):
     def close(self):
         plt.close()
 
-    def step(self, action):
+    def step(self, action, nation):
         '''
         Action space:
         [lat, lng] of where to place a defense platform
@@ -180,7 +180,7 @@ class MDSEnv(Env):
         lat = self.config['placement_lat_band'][0] + action[0]*(self.config['placement_lat_band'][1] - self.config['placement_lat_band'][0])
         lng = self.config['placement_lng_band'][0] + action[1]*(self.config['placement_lng_band'][1] - self.config['placement_lng_band'][0])
         if self.deploy_time <= 0:
-            self.deploy_time = self.place_defense_platforms((lat, lng), 'US')
+            self.deploy_time = self.place_defense_platforms((lat, lng), nation)
         
         # Update deploy time
         self.deploy_time -= 1

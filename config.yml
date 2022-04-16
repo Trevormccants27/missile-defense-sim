@@ -2,7 +2,6 @@
 plot_delay: 0.0001
 
 # RL Options
-actor_type: 'random' # Options are ['random', 'in_between', 'near_defense', 'spaced_out', 'in_between_and_near_defense']
 seed: 42
 max_time_steps: 200
 obs_height: 16
@@ -20,9 +19,11 @@ n_defended_assets: 10
 # Nation attributes
 US:
   budget: 715000 # million USD
+  actor_type: 'random' # Options are ['random', 'in_between', 'near_defense', 'spaced_out', 'in_between_and_near_defense']
 
 Japan:
   budget: 47000 # million USD
+  actor_type: 'random' # Options are ['random', 'in_between', 'near_defense', 'spaced_out', 'in_between_and_near_defense']
 
 Enemy:
   n_threat_platforms: 20
