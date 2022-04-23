@@ -1,0 +1,63 @@
+# Plot options
+plot_delay: 0.0001
+
+# RL Options
+seed: {group: 'seed', values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+max_time_steps: 500
+obs_height: 16
+obs_width: 16
+placement_lat_band: [30, 45]
+placement_lng_band: [130, 145]
+obs_lat_band: [30, 45]
+obs_lng_band: [130, 145]
+
+# Global attributes
+time_to_war: {group: 'time_to_war', values: [4, 12, 24]} # weeks
+political_tensions_factor: 15000 #km/week
+n_defended_assets: 10
+
+# Nation attributes
+US:
+  budget: 70000 # million USD
+  actor_type: {group: 'actor_type', values: ['random', 'in_between', 'near_defense', 'spaced_out', 'in_between_and_near_defense']} # Options are ['random', 'in_between', 'near_defense', 'spaced_out', 'in_between_and_near_defense']
+
+Japan:
+  budget: 47000 # million USD
+  actor_type: 'random' # Options are ['random', 'in_between', 'near_defense', 'spaced_out', 'in_between_and_near_defense']
+
+Enemy:
+  n_threat_platforms: 10
+
+# Platform attributes
+ship:
+  cost: {group: 'defense_platform', values: [1110, 1480, 1850, 1480, 1850, 2220, 1850, 2220, 2590]}
+  deploy_time: 6
+  n_interceptors: 10000
+  p_k: {group: 'defense_platform', values: [0.5, 0.7, 0.9, 0.5, 0.7, 0.9, 0.5, 0.7, 0.9]}
+  intercept_range: 185 # km
+  p_a: {group: 'defense_platform', values: [0.5, 0.5, 0.5, 0.7, 0.7, 0.7, 0.9, 0.9, 0.9]}
+  detection_range: 324 # km
+
+ground_interceptor:
+  cost: {group: 'defense_platform', values: [1500, 1800, 2100, 1500, 1800, 2100, 1500, 1800, 2100]}
+  deploy_time: 12
+  n_interceptors: 20
+  p_k: {group: 'defense_platform', values: [0.5, 0.7, 0.9, 0.5, 0.7, 0.9, 0.5, 0.7, 0.9]}
+  intercept_range: 160 # km
+  p_a: 0
+  detection_range: 0 # km
+
+ground_detector:
+  cost: {group: 'defense_platform', values: [114, 114, 114, 152, 152, 152, 190, 190, 190]}
+  deploy_time: 12
+  n_interceptors: 0
+  p_k: 0
+  intercept_range: 0 # km
+  p_a: {group: 'defense_platform', values: [0.5, 0.5, 0.5, 0.7, 0.7, 0.7, 0.9, 0.9, 0.9]}
+  detection_range: 470 # km
+
+threat_platform:
+  n_missiles: [1, 5]
+  time_between_attacks: {mean: 10, std: 3}
+  threat_missile:
+    steps_to_impact: 20
